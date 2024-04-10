@@ -38,6 +38,8 @@
 #ifndef ARDUINO_STREAMING
 #define ARDUINO_STREAMING
 
+#include "FastLED.h"
+
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
 #else
@@ -402,5 +404,17 @@ inline Print& operator <<(Print &stm, const __FMT<Ft, T, Ts...> &args)
 // around that ...
 template<typename Ft, typename... Ts>
 __FMT<Ft, Ts...> _FMT(Ft format, Ts ... args) { return __FMT<Ft, Ts...>(format, args...); }
+
+// Operator overload to print CRGB objects
+inline Print& operator<<(Print& stream, const CRGB& color) {
+    stream.print("CRGB(");
+    stream.print(color.r);
+    stream.print(", ");
+    stream.print(color.g);
+    stream.print(", ");
+    stream.print(color.b);
+    stream.print(")");
+    return stream;
+}
 
 #endif
